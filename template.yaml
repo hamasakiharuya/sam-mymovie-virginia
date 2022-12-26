@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  mymvoie-virginia
+
+  Sample SAM Template for mymvoie-virginia
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+  
+Parameters:
+  EnviromentType:
+    Type: String
+    Default: stg
+
+Resources:
+ ###Lambda
+  GetRevMovFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - edgelambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      AutoPublishAlias: GetRevMov
+      FunctionName: !Sub GetRevMov-${EnviromentType}-func
+      Description: "get movie revision"
+      CodeUri: lambda_code/
+      Policies:
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+      Handler: GetRevMov.lambda_handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+
+  GetRevFolFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - edgelambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      AutoPublishAlias: GetRevFol
+      FunctionName: !Sub GetRevFol-${EnviromentType}-func
+      Description: "get follow revisiton"
+      CodeUri: lambda_code/
+      Policies:
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+      Handler: GetRevFol.lambda_handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
