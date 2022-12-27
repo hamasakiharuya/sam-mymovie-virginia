@@ -13,7 +13,7 @@ exports.handler = (event, context, callback) => {
     
     //クエリパラメータ取得
     const params = querystring.parse(request.querystring);
-    const user_id = params.q
+    const user_id = params.topuser
     
     //dynamodbからversion取得
     var param = {
