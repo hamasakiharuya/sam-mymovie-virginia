@@ -10,6 +10,7 @@ exports.handler = (event, context, callback) => {
     
     //Get contents of request
     const request = event.Records[0].cf.request;
+    console.log(request)
     
     //クエリパラメータ取得
     const params = querystring.parse(request.querystring);
