@@ -10,7 +10,13 @@ exports.handler = (event, context, callback) => {
     
     //Get contents of request
     const request = event.Records[0].cf.request;
-    console.log(request)
+
+    //Getメソッド以外は終了
+    const method = request.method;
+    if (!(method == "GET")){
+      callback(null, request);
+    }
+
     
     //クエリパラメータ取得
     const params = querystring.parse(request.querystring);
@@ -37,7 +43,6 @@ exports.handler = (event, context, callback) => {
             request.headers[header.toLowerCase()] = [
               { key: header, value: movie_version },
             ];
-    
         //Return modified response
         callback(null, request);
       }
