@@ -16,7 +16,6 @@ Parameters:
     Type: String
     Default: stg
 
-
 Resources:
  ###Lambda
   GetRevMovFunction:

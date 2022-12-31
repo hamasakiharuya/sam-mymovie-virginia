@@ -17,7 +17,7 @@ exports.handler = (event, context, callback) => {
     
     //dynamodbからversion取得
     var param = {
-      TableName: 'user',
+      TableName: 'user-stg-tb',
       Key: {
         'user_id': {S: user_id}
       },
