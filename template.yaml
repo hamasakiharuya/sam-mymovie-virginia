@@ -15,6 +15,10 @@ Parameters:
   EnviromentType:
     Type: String
     Default: stg
+    AllowedValues:
+      - prod
+      - stg
+
 
 Resources:
  ###Lambda
