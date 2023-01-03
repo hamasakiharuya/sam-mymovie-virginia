@@ -46,42 +46,42 @@ jobs:
 # sam deploy
       - run: sam deploy --no-disable-rollback --no-confirm-changeset --no-fail-on-empty-changeset --stack-name mymovie-virginia --s3-bucket sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }} --capabilities CAPABILITY_NAMED_IAM --region us-east-1 --parameter-overrides EnviromentType=stg
 
-build-deploy-production:
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - uses: aws-actions/setup-sam@v2
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ env.AWS_ROLE_ARN }}
-          aws-region: us-east-1
-      # sam build 
-      - run: sam build --use-container
-      
-      #test
-      #- run : pip install -r tests/requirements.txt 
-      #- run: pytest -s -k test_lambda_handler
-      - run: |
-          pip3 install cfn-lint
-          cfn-lint template.yaml
+  build-deploy-production:
+      runs-on: ubuntu-latest
+      environment:
+        name: production
+      permissions:
+        id-token: write
+        contents: read
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-python@v3
+        - uses: aws-actions/setup-sam@v2
+        - uses: aws-actions/configure-aws-credentials@v1
+          with:
+            role-to-assume: ${{ env.AWS_ROLE_ARN }}
+            aws-region: us-east-1
+        # sam build 
+        - run: sam build --use-container
+        
+        #test
+        #- run : pip install -r tests/requirements.txt 
+        #- run: pytest -s -k test_lambda_handler
+        - run: |
+            pip3 install cfn-lint
+            cfn-lint template.yaml
 
-      #S3 create
-      - id: check_s3_backet
-        continue-on-error: true
-        run: |
-          aws s3 ls s3://sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }}/
+        #S3 create
+        - id: check_s3_backet
+          continue-on-error: true
+          run: |
+            aws s3 ls s3://sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }}/
 
-      - if: ${{ steps.check_s3_backet.outcome == 'failure' }}
-        run: |
-            aws s3 mb s3://sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }}/
+        - if: ${{ steps.check_s3_backet.outcome == 'failure' }}
+          run: |
+              aws s3 mb s3://sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }}/
 
-# Run Unit tests- Specify unit tests here 
+  # Run Unit tests- Specify unit tests here 
 
-# sam deploy
-      - run: sam deploy --no-disable-rollback --no-confirm-changeset --no-fail-on-empty-changeset --stack-name mymovie-virginia --s3-bucket sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }} --capabilities CAPABILITY_NAMED_IAM --region us-east-1 --parameter-overrides EnviromentType=prod
+  # sam deploy
+        - run: sam deploy --no-disable-rollback --no-confirm-changeset --no-fail-on-empty-changeset --stack-name mymovie-virginia --s3-bucket sam-mymovie-virginia-backet-${{ secrets.AWS_ACCOUNT_ID }} --capabilities CAPABILITY_NAMED_IAM --region us-east-1 --parameter-overrides EnviromentType=prod
