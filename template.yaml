@@ -35,7 +35,7 @@ Resources:
                 - edgelambda.amazonaws.com
             Action: "sts:AssumeRole"
       AutoPublishAlias: GetRevMov
-      FunctionName: !Sub GetRevMov-${EnviromentType}-func
+      FunctionName: !Sub GetRevMovie-${EnviromentType}-func
       Description: "get movie revision"
       CodeUri: lambda_code/
       Policies:
@@ -58,7 +58,7 @@ Resources:
                 - edgelambda.amazonaws.com
             Action: "sts:AssumeRole"
       AutoPublishAlias: GetRevFol
-      FunctionName: !Sub GetRevFol-${EnviromentType}-func
+      FunctionName: !Sub GetRevFollow-${EnviromentType}-func
       Description: "get follow revisiton"
       CodeUri: lambda_code/
       Policies:
